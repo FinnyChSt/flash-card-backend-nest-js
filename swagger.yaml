@@ -1,0 +1,248 @@
+openapi: 3.0.1
+info:
+  title: Flashcard Application API
+  version: 1.0.0
+  description: API for managing flashcards and projects in a learning application.
+paths:
+  /card:
+    post:
+      summary: "Creates a new flashcard"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                answer:
+                  type: string
+                project:
+                  type: string
+      responses:
+        '200':
+          description: "Flashcard created"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  project:
+                    type: string
+                  cardId:
+                    type: string
+                    format: uuid
+/cards/{project}/{n}:
+    get:
+      summary: "Retrieves n flashcards from the project"
+      parameters:
+        - in: path
+          name: project
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: n
+          required: true
+          schema: 
+            type: number
+          
+      responses:
+        '200':
+          description: "List of flashcards"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    question:
+                      type: string
+                    answer:
+                      type: string
+                    cardId:
+                      type: string
+                      format: uuid
+/card/{id}:
+    get:
+      summary: "Retrieves a flashcard by ID"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: "Flashcard details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  project:
+                    type: string
+                  cardId:
+                    type: string
+                    format: uuid
+    put:
+      summary: "Updates a flashcard by ID"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                answer:
+                  type: string
+      responses:
+        '200':
+          description: "Flashcard updated"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  question:
+                    type: string
+                  answer:
+                    type: string
+                  cardId:
+                    type: string
+                    format: uuid
+    delete:
+      summary: "Deletes a flashcard by ID"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: "Flashcard deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  cardId:
+                    type: string
+                    format: uuid
+/projects:
+    post:
+      summary: "Creates a new project"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ProjectName:
+                  type: string
+      responses:
+        '200':
+          description: "Project created"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ProjectName:
+                    type: string
+                  projectId:
+                    type: string
+                    format: uuid
+    get:
+      summary: "Retrieves all projects"
+      responses:
+        '200':
+          description: "List of projects"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ProjectName:
+                      type: string
+                    projectId:
+                      type: string
+                      format: uuid
+/projects/{id}:
+    get:
+      summary: "Retrieves project data and statistics by ID"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: "Project details and statistics"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ProjectName:
+                    type: string
+                  projectId:
+                    type: string
+                    format: uuid
+                  totalFlashcards:
+                    type: number
+                  totalYesAnswers:
+                    type: number
+                  totalNoAnswers:
+                    type: number
+    delete:
+      summary: "Deletes a project by ID"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: "Project and related flashcards deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  projectId:
+                    type: string
+                    format: uuid
