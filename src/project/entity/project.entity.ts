@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { FlashCard } from "src/flash-card/entity/flash-card.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Project {
@@ -10,4 +11,7 @@ export class Project {
 
   @Column()
   description: string;
+
+  @OneToMany(() => FlashCard, (flashCard) => flashCard.project)
+  flashCards: FlashCard[];
 }
