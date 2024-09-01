@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from "@nestjs/common";
@@ -26,14 +27,28 @@ export class FlashCardController {
     }
     return this.flashCardService.getFlashCardsByProject(projectId);
   }
+  @Get("random")
+  getRandomFlashCard(@Query("project") projectId: string) {
+    return this.flashCardService.getRandomFlashCard(projectId);
+  }
 
-  @Delete("id")
+  @Get(":id")
+  getFlashCardById(@Param("id") id: string) {
+    return this.flashCardService.getFlashCardById(id);
+  }
+
+  @Delete(":id")
   deleteFlashCard(@Param("id") id: string) {
     return this.flashCardService.deleteFlashCard(id);
   }
 
-  @Get("random")
-  getRandomFlashCard(@Query("project") projectId: string) {
-    return this.flashCardService.getRandomFlashCard(projectId);
+  @Patch(":id/correct")
+  updateFlashCardCorrectAnswer(@Param("id") id: string) {
+    return this.flashCardService.updateFlashCardCorrectAnswer(id);
+  }
+
+  @Patch(":id/wrong")
+  updateFlashCardWrongAnswer(@Param("id") id: string) {
+    return this.flashCardService.updateFlashCardWrongAnswer(id);
   }
 }

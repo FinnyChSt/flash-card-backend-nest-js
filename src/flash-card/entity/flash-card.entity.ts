@@ -12,6 +12,15 @@ export class FlashCard {
   @Column()
   answer: string;
 
+  @Column()
+  correct: number;
+
+  @Column()
+  wrong: number;
+
+  @Column()
+  weight: number;
+
   @ManyToOne(() => Project, (project) => project.flashCards)
   project: Project;
 }
